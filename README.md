@@ -5,9 +5,9 @@
 **(建議在此處插入一張應用程式截圖或 GIF 動畫 / Recommended: Insert a screenshot or GIF here)**
 ## ✨ Collaboration Effort / 合作成果 ✨
 
-**English:** This project is a collaborative creation by **[你的名字 或 GitHub 使用者名稱]**, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including **Google Gemini**, **OpenAI ChatGPT**, and **xAI Grok**. It represents a fusion of human creativity and AI capabilities.
+**English:** This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including **Google Gemini**, **OpenAI ChatGPT**, and **xAI Grok**. It represents a fusion of human creativity and AI capabilities.
 
-**中文:** 本專案由 **[你的名字 或 GitHub 使用者名稱]** 主導，並在 **Google Gemini**、**OpenAI ChatGPT** 及 **xAI Grok** 等多個大型語言模型的深度參與、腦力激盪與程式碼生成協助下共同建構而成，是人類創意與 AI 智慧的結晶。
+**中文:** 本專案由 xdrxdrxd 主導，並在 **Google Gemini**、**OpenAI ChatGPT** 及 **xAI Grok** 等多個大型語言模型的深度參與、腦力激盪與程式碼生成協助下共同建構而成，是人類創意與 AI 智慧的結晶。
 
 ## 📝 English Abstract
 
