@@ -269,11 +269,13 @@ def clean_short_term_memory(retention_days=30):
 # --- 設定視窗類別 ---
 # (Unchanged)
 class SettingsWindow(tk.Toplevel):
-    def __init__(self, parent, app_settings):
-        super().__init__(parent)
+    def __init__(self, tk_parent, app_parent, app_settings):
+        super().__init__(tk_parent)       # tkinter 用來顯示視窗的 parent
+        self.parent = app_parent          # 實際邏輯主控端（PetApp）
+        self.app_settings = app_settings
         self.title("小星設定")
         self.geometry("500x600") # Increased size
-        self.parent = parent # The main PetApp instance
+        self.parent = app_parent # The main PetApp instance
         self.app_settings = app_settings # Reference to the settings dict/object
 
         # --- Create main frame and canvas for scrolling ---
@@ -313,7 +315,7 @@ class SettingsWindow(tk.Toplevel):
         cancel_button.pack(side=tk.RIGHT)
 
         # --- Make window modal ---
-        self.transient(parent)
+        self.transient(tk_parent)
         self.grab_set()
         self.wait_window(self)
 
@@ -437,39 +439,133 @@ class SettingsWindow(tk.Toplevel):
                  logging.warning(f"Setting key {key} not found in app settings during UI load.")
 
 
+# INSIDE SettingsWindow CLASS
+
     def _save_settings(self):
+        """Saves settings from UI, ensuring correct types before persisting."""
         logging.info("Saving settings from Settings UI.")
         try:
-            temp_settings = {}
+            temp_settings = {} # Store correctly typed values here first
             for key, var in self.setting_vars.items():
-                value = var.get()
+                typed_value = None # Initialize typed_value for this iteration
+
+                # --- Special handling for Proactive Frequency Combobox ---
                 if key == SETTING_PROACTIVE_FREQ:
-                    # The variable holds the index (0, 1, 2, 3)
-                    temp_settings[key] = int(value)
-                elif key == SETTING_RESPONSE_DELAY_ENABLED:
-                     temp_settings[key] = int(value) # Ensure 0 or 1
-                elif key in [SETTING_RESPONSE_DELAY_MAX, SETTING_LLM_MAX_TOKENS, SETTING_STM_RETENTION_DAYS]:
-                    temp_settings[key] = int(value) # Ensure integer
+                    try:
+                        # Get the selected index DIRECTLY from the Combobox widget
+                        # DO NOT use var.get() for the frequency combobox's variable
+                        index_val = self.freq_combobox.current() # Returns the index (0, 1, 2, 3) or -1
+                        if index_val >= 0:
+                             typed_value = index_val # The index is the integer value we want to save
+                             logging.debug(f"Processing setting '{key}': Combobox index='{typed_value}' (type: {type(typed_value)})")
+                        else:
+                             # Handle case where nothing is selected? Fallback to default or log error
+                             logging.warning(f"Proactive frequency combobox has no selection (index={index_val}). Using default index 1 (Normal).")
+                             typed_value = 1 # Default to 'Normal' index
+                             # Optionally update the UI to reflect this default choice?
+                             # self.freq_combobox.current(1)
+                             # var.set(1) # Also update the IntVar just in case
+                    except Exception as e_freq:
+                         logging.error(f"Error getting index for setting '{key}': {e_freq}. Skipping save.")
+                         messagebox.showerror("錯誤", f"讀取主動聊天頻率設定時出錯: {e_freq}", parent=self)
+                         return # Stop saving
+
+                # --- General handling for other variables ---
                 else:
-                    temp_settings[key] = float(value) # Assume float for others (Scales, etc.)
+                    try:
+                        # For all other variables (Scales, Entries, Checkbuttons), var.get() should work fine
+                        value = var.get()
+                        logging.debug(f"Processing setting '{key}': UI value='{value}' (type: {type(value)})")
 
-            # Update parent app's settings immediately
-            self.parent.settings.update(temp_settings)
+                        # Convert value to correct Python type based on key
+                        if key == SETTING_RESPONSE_DELAY_ENABLED:
+                            typed_value = int(value) # Checkbox var is 0 or 1
+                        elif key in [SETTING_RESPONSE_DELAY_MAX, SETTING_LLM_MAX_TOKENS, SETTING_STM_RETENTION_DAYS]:
+                            typed_value = int(value) # Integer settings
+                        elif key in [SETTING_OPTIMISM_TRAIT, SETTING_ANXIETY_TRAIT,
+                                     SETTING_EMO_SENSITIVITY, SETTING_MOOD_STABILITY,
+                                     SETTING_DECAY_RATE, SETTING_TIME_SHIFT_STRENGTH,
+                                     SETTING_FORGET_CHANCE, SETTING_RECALL_CHANCE,
+                                     SETTING_LLM_TEMP]:
+                            typed_value = float(value) # Float settings (from Scales mostly)
+                        else:
+                            # Fallback for any potentially missed keys (shouldn't happen ideally)
+                            logging.warning(f"Unknown setting key '{key}' encountered during save. Assuming float based on DB type.")
+                            # Try converting to float, as DB app_state uses REAL
+                            typed_value = float(value)
 
-            # Persist settings to DB
-            for key, value in temp_settings.items():
-                save_setting(key, value)
+                    except (ValueError, TypeError, tk.TclError) as e:
+                        logging.error(f"Error converting value for setting '{key}' (UI value: '{value}', type: {type(value)}): {e}. Skipping save for this key.")
+                        messagebox.showerror("輸入錯誤", f"設定 '{key}' 的值 '{value}' 無效。\n請修正後再試。", parent=self)
+                        return # Stop saving process if conversion fails
 
-            # Notify parent app that settings might have changed
-            self.parent.apply_settings_changes()
+                # --- Store the correctly typed value if conversion was successful ---
+                if typed_value is not None:
+                    # Ensure the value is within reasonable bounds if necessary (optional validation)
+                    # Example: Clamp temperature between 0 and 1
+                    # if key == SETTING_LLM_TEMP:
+                    #     typed_value = max(0.0, min(1.0, typed_value))
 
-            messagebox.showinfo("成功", "設定已儲存！", parent=self)
-            self.destroy()
+                    temp_settings[key] = typed_value
+                    logging.debug(f"  -> Storing key '{key}' with value={typed_value} (type: {type(typed_value)})")
+                else:
+                    # This indicates an issue getting the value (e.g., frequency combobox error without exception)
+                    logging.warning(f"Internal logic error: typed value for key '{key}' remained None. Check specific handling.")
+                    # Decide whether to continue or stop saving
+
+            # --- Final check if any settings failed ---
+            if len(temp_settings) != len(self.setting_vars):
+                 logging.error("Some settings failed conversion/retrieval. Aborting save.")
+                 # No explicit error message needed here as it should have been shown earlier
+                 return
+
+
+            # --- Update parent app's settings immediately ---
+            if hasattr(self.parent, 'settings') and isinstance(self.parent.settings, dict):
+                 self.parent.settings.update(temp_settings)
+                 logging.debug("Parent app's settings dictionary updated in memory.")
+            else:
+                  # This would be a programming error in how SettingsWindow is called or PetApp is structured
+                  logging.error("Critical error: Parent object does not have a valid 'settings' dictionary attribute.")
+                  messagebox.showerror("內部錯誤", "無法更新主程式設定。", parent=self)
+                  return # Stop if parent cannot be updated
+
+            # --- Persist settings to DB using save_setting (which expects numeric value) ---
+            save_count = 0
+            fail_count = 0
+            for key, value_to_save in temp_settings.items():
+                try:
+                    # save_setting handles the final float conversion for DB storage
+                    save_setting(key, value_to_save)
+                    save_count += 1
+                except Exception as e_save: # Catch potential errors in save_setting itself
+                    logging.error(f"Failed to save setting {key}={value_to_save} to DB: {e_save}")
+                    fail_count += 1
+
+            logging.info(f"Attempted to save {len(temp_settings)} settings. Success: {save_count}, Failed: {fail_count}")
+
+            if fail_count > 0:
+                 messagebox.showwarning("儲存錯誤", f"有 {fail_count} 個設定無法成功儲存到資料庫，請檢查日誌檔案。", parent=self)
+
+
+            # --- Notify parent app that settings might have changed ---
+            if hasattr(self.parent, 'apply_settings_changes') and callable(self.parent.apply_settings_changes):
+                  self.parent.apply_settings_changes()
+                  logging.debug("Called parent.apply_settings_changes()")
+            else:
+                  logging.warning("Parent object does not have 'apply_settings_changes' method.")
+
+
+            # Only show success and close if no critical errors occurred during saving phase
+            if fail_count == 0:
+                 messagebox.showinfo("成功", "設定已儲存！", parent=self)
+                 self.destroy() # Close settings window only on full success
+            # else: keep window open?
 
         except Exception as e:
-            logging.error(f"Error saving settings: {e}")
-            messagebox.showerror("錯誤", f"儲存設定時發生錯誤：\n{e}", parent=self)
-
+             # Catch any unexpected errors during the overall saving process
+             logging.error(f"Unexpected error during settings save process: {e}", exc_info=True)
+             messagebox.showerror("錯誤", f"儲存設定時發生預期外錯誤：\n{e}", parent=self)
 
 # --- 主程式類別 ---
 class PetApp:
@@ -710,7 +806,7 @@ class PetApp:
 
     def open_settings_window(self):
          # (Unchanged)
-         SettingsWindow(self.root, self.settings)
+         SettingsWindow(self.root, self, self.settings)
 
     def _get_dominant_emotion(self):
         # (Unchanged)
