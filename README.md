@@ -1,8 +1,8 @@
 # DeskWifu-Gemini - AI Emotional Desktop Pet (AI 情感桌面寵物)
+![Uploading default.png…]()
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**(建議在此處插入一張應用程式截圖或 GIF 動畫 / Recommended: Insert a screenshot or GIF here)**
 ## ✨ Collaboration Effort / 合作成果 ✨
 
 **English:** This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including **Google Gemini**, **OpenAI ChatGPT**, and **xAI Grok**. It represents a fusion of human creativity and AI capabilities.
