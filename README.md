@@ -27,27 +27,15 @@ DeskWifu-Gemini is a Python-based desktop pet application featuring an AI compan
 
 ## ✨ Features / 主要功能
 
-* **🤖 AI Interaction / AI 互動聊天:**
-    * **EN:** Powered by Google Gemini (Flash/Pro models) for natural language conversations.
-    * **中:** 由 Google Gemini (Flash/Pro 模型) 提供支援，能進行自然流暢的對話。
-* **🎭 Emotion Simulation / 情感模擬:**
-    * **EN:** Possesses various emotional states (e.g., happy, sad, bored, anxious) influenced by time, interaction (via LLM analysis), and traits. Includes decay over time.
-    * **中:** 擁有多種情緒狀態（如開心、難過、無聊、焦慮等），情緒會隨時間自然衰減、受對話內容影響 (透過 LLM 分析)、受一天中的時間影響，並可調整相關參數。
-* **🧠 Memory System / 記憶系統:**
-    * **EN:** Features short-term and long-term memory persistence using SQLite. Includes simulated forgetting and recall mechanisms based on configurable chances.
-    * **中:** 具備短期記憶和長期記憶 (使用 SQLite 資料庫)。會根據對話內容自動儲存記憶，並模擬記憶遺忘和回憶的過程 (機率可設定)。
-* **🎨 High Customization / 高度自訂化:**
-    * **EN:** Rename the pet (default: "小星"). Import custom images for different emotional states. Access a graphical settings window to adjust personality traits (optimism, anxiety), emotional responses (stability, sensitivity), behavior patterns (proactive chat frequency, response delay), LLM parameters (temperature, max tokens), and memory settings (retention days, forget/recall chance).
-    * **中:** 可為寵物**重新命名** (預設為 "小星")。可**匯入自訂圖片**作為寵物不同情緒的形象。提供**圖形化設定介面**，可調整個性特質、情緒反應、行為模式、LLM 參數及記憶相關設定。
-* **🗣️ Colloquial Language / 口語化表達:**
-    * **EN:** Simulates colloquialisms often used by young people in Taiwan for more lively chat.
-    * **中:** 模擬台灣年輕人常用口頭禪，讓對話更生動。
-* **🕰️ Proactive Interaction / 定期互動:**
-    * **EN:** Initiates conversations or expresses status periodically based on configured frequency.
-    * **中:** 會根據設定的頻率主動發起對話或表達狀態。
-* **💾 State Persistence / 狀態儲存:**
-    * **EN:** Emotions, memories, API Key, and all settings are saved automatically and restored on next launch.
-    * **中:** 情緒、記憶、API Key 和所有設定都會自動儲存，下次開啟時恢復。
+* AI-Powered Conversations: Powered by Google Gemini (Flash/Pro models) for natural, contextual dialogues.
+* Natural Emotional Simulation: Emulates emotional states (happy, sad, bored, anxious) influenced by interaction, time, and traits, with time-based decay.
+* Organic Memory System: Short-term and long-term memory saved in SQLite, simulates forgetting and recall based on customizable probabilities.
+* Name & Image Customization: Rename your pet and import custom emotion images; default name is "小星".
+* Trait Configuration: Graphical settings interface to adjust traits (optimism, anxiety), emotional reactivity, and behavior patterns.
+* Output Modulation: Fine-tune Gemini’s output using parameters like temperature and max tokens for personality shaping.
+* Key Retention: Gemini API Key is securely stored and reused unless manually cleared.
+* Youthful Colloquialism: Simulates modern, casual slang used by young people in Taiwan for relatable chats.
+* Ongoing Proactivity: Regularly initiates conversations or emotional expressions based on interval settings.
 
 ## 📋 Requirements / 環境需求
 
