@@ -91,7 +91,7 @@ DeskWifu-Gemini is a Python-based desktop pet application featuring an AI compan
 ## 🛠️ Customization / 自訂
 
 * **Appearance / 外觀:** Use "File" -> "Import Image..." to change the pet's main look. Replace emotion-specific images (like `happy.png`, `sad.png`) to customize its appearance for different moods.
-* **Name / 名稱:** Use "File" -> "Rename..." to give your pet a new name.
+* **Name / 名稱:** Use "File" -> "Rename..." to give your pet a new name.(In development)
 * **Behavior & Personality / 行為與個性:** Use "File" -> "Open Settings..." to access the detailed settings window and fine-tune parameters to shape a unique personality.
 
 ## 📁 Project Structure / 專案結構
