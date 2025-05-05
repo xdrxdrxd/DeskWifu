@@ -1,5 +1,4 @@
 # DeskWifu-Gemini - AI Emotional Desktop Pet (AI 情感桌面寵物)
-![Uploading default.png…]()
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
