@@ -27,8 +27,8 @@ DeskWifu-Gemini is a Python-based desktop pet application featuring an AI compan
 ## ✨ Features / 主要功能
 
 * AI-Powered Conversations: Powered by Google Gemini (Flash/Pro models) for natural, contextual dialogues.
-* Natural Emotional Simulation: Emulates emotional states (happy, sad, bored, anxious) influenced by interaction, time, and traits, with time-based decay.
-* Organic Memory System: Short-term and long-term memory saved in SQLite, simulates forgetting and recall based on customizable probabilities.
+* Natural Emotional Simulation: Mimics emotions (happy, sad, bored, anxious) based on interaction, time, and traits, with time-based decay.
+* Organic Memory System: Stores short-term and long-term memory in SQLite, simulates forgetting and recall with customizable probabilities.
 * Name & Image Customization: Rename your pet and import custom emotion images; default name is "小星".(In development)
 * Trait Configuration: Graphical settings interface to adjust traits (optimism, anxiety), emotional reactivity, and behavior patterns.
 * Output Modulation: Fine-tune Gemini’s output using parameters like temperature and max tokens for personality shaping.
