@@ -1352,7 +1352,7 @@ class PetApp:
             try:
                 response = self.model.generate_content(
                     prompt,
-                    generation_config=genai.types.GenerationConfig(temperature=0.2, max_output_tokens=350) # 稍微增加 tokens 以容納完整的 JSON
+                    generation_config=genai.types.GenerationConfig(temperature=0.2, max_output_tokens=700) # 稍微增加 tokens 以容納完整的 JSON
                 )
                 
                 if response.parts:
