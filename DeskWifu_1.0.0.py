@@ -104,7 +104,7 @@ DEFAULT_APP_SETTINGS = {
     SETTING_FORGET_CHANCE: 0.03,
     SETTING_RECALL_CHANCE: 0.01,
     SETTING_LLM_TEMP: 0.75,
-    SETTING_LLM_MAX_TOKENS: 150,
+    SETTING_LLM_MAX_TOKENS: 700,
     SETTING_STM_RETENTION_DAYS: 30,
     SETTING_USER_ID: "default_user", # Default user_id if none is set
     SETTING_SELECTED_LLM: "gemini-1.5-flash",
@@ -1320,7 +1320,7 @@ class PetApp:
         
         generation_config = genai.types.GenerationConfig(
             temperature=float(self.settings.get(SETTING_LLM_TEMP, 0.75)),
-            max_output_tokens=int(self.settings.get(SETTING_LLM_MAX_TOKENS, 150))
+            max_output_tokens=int(self.settings.get(SETTING_LLM_MAX_TOKENS, 700))
         )
 
         logging.debug(f"LLM Prompt Generation: Full system message for contents: {full_system_message_for_contents[:300]}...") # Log beginning
