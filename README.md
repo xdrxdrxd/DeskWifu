@@ -85,10 +85,8 @@ DeskWifu (小星桌寵) is a Python-based interactive desktop pet application po
 - Python packages:
   - `tkinter`
   - `requests`
-  - `openai` *(if you use OpenAI models)*
   - `google.generativeai` *(for Gemini models)*
   - `Pillow`
-  - `pyttsx3` *(optional, for voice playback)*
 
 > Install dependencies via:
 ```bash
