@@ -136,20 +136,11 @@ python main.py
 
 ```
 DeskWifu/
-├── main.py
-├── gui.py
-├── ai_logic.py
-├── memory.py
-├── emotion.py
-├── settings.py
-├── tasks.py
-├── database/
-│   └── pet_data.db
-├── images/
-│   ├── default.png
-│   ├── happy.png
-│   ├── sad.png
-│   └── ...
+├── DeskWifu_1.0.0.py
+├── pet_data.db
+├── default.png
+├── happy.png
+...
 ├── README.md
 └── requirements.txt
 ```
