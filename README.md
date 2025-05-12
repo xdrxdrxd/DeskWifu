@@ -228,7 +228,8 @@ Please ensure any contributions align with the project's goal of creating an eng
 ## 📜 License / 授權條款
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details (if you create one, or link to the standard MIT license text).
-#-----------------------------------------------------------------------------#
+---
+---
 # DeskWifu 小星桌寵 (版本 1.0.0)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
