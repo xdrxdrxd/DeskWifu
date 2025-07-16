@@ -1,232 +1,185 @@
-# DeskWifu 小星桌寵 (版本 1.3.0 - 搜尋進化版)
+# DeskWifu 小星桌寵 (版本 1.5.0 - 認知進化版)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**Collaboration Effort / 合作成果**
 
-## ✨ Collaboration Effort / 合作成果 ✨
+**English:** This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including Google Gemini, OpenAI ChatGPT, and xAI Grok. It represents a fusion of human creativity and AI capabilities.
 
-**English:**
-This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including **Google Gemini**, **OpenAI ChatGPT**, and **xAI Grok**. It represents a fusion of human creativity and AI capabilities.
-
-**中文:**
-本專案由 xdrxdrxd 主導，並在 **Google Gemini**、**OpenAI ChatGPT** 及 **xAI Grok** 等多個大型語言模型的深度參與、腦力激盪與程式碼生成協助下共同建構而成，是人類創意與 AI 智慧的結晶。
+**中文:** 本專案由 xdrxdrxd 主導，並在 Google Gemini、OpenAI ChatGPT 及 xAI Grok 等多個大型語言模型的深度參與、腦力激盪與程式碼生成協助下共同建構而成，是人類創意與 AI 智慧的結晶。
 
 ---
 
-## 📝 English Abstract
+**English Abstract**
 
-DeskWifu (小星桌寵) is an advanced Python-based interactive desktop pet application. Powered by Google Gemini API for natural language conversations and Google Custom Search API for web searching capabilities, 小星 simulates emotions, maintains short-term and long-term memory in SQLite, and learns individual characteristics. The application features a Tkinter GUI, extensive customization options for personality, emotional responses, appearance, sleep schedules, and now includes the ability to search the web for current events or to answer user queries, with safeguards for API usage.
-
----
-
-## 📋 Table of Contents / 目錄
-
-- [Features / 主要功能](#-features--主要功能)
-- [Important Security & Privacy Notes / 重要安全與隱私說明](#️-important-security--privacy-notes--重要安全與隱私說明)
-- [Requirements / 環境需求](#-requirements--環境需求)
-- [Installation / 安裝步驟](#-installation--安裝步驟)
-- [Configuration / 設定](#️-configuration--設定)
-- [Usage / 如何使用](#️-usage--如何使用)
-- [Customization / 自訂](#️-customization--自訂)
-- [Project Structure / 專案結構](#-project-structure--專案結構)
-- [Contributing / 貢獻](#-contributing--貢獻)
-- [License / 授權條款](#-license--授權條款)
+DeskWifu (小星桌寵) v1.5.0 is a significant evolution, transforming the interactive desktop pet into a sophisticated digital agent with a simulated cognitive architecture. Powered by the Google Gemini API for conversations and Google Custom Search for real-world knowledge, 小星 now features an **advanced emotional core** driven by valence-arousal models, a **simulated neurochemical state** (influencing motivation, stress, and mood), and implements psychological concepts like **attachment theory** and **self-efficacy**. It learns not only from user interaction but through **LLM-powered self-reflection** on its own thoughts and responses. This version represents a deeper attempt at simulating a believable, dynamic, and adaptive digital consciousness.
 
 ---
 
-## ✨ Features / 主要功能
+**Table of Contents / 目錄**
 
-### 💬 AI-Powered Conversations / 智慧聊天
-- Powered by Google Gemini (Flash/Pro models) for natural, contextual dialogues.
-- Simulates modern, casual slang used by young people in Taiwan for relatable chats.
-
-### 🌐 **NEW: Web Search Integration / 網路搜尋整合**
-- **LLM-Driven Search:** 小星 can decide to search the web for information it doesn't know or to get context for current events, using Google Custom Search API.
-- **First-Time Personality Seeding:** Optionally uses web search on first run to gather random data for initial personality traits.
-- **Daily News Fetching:** Optionally fetches daily news summaries to stay updated (user-configurable).
-- **API Usage Control:** Includes basic daily call count tracking and error handling for search API quota.
-
-### 😄 Natural Emotional Simulation / 動態情緒系統
-- Mimics a wide range of emotions based on interaction, time, learned traits, and personality, with time-based decay.
-- Emotion changes trigger different images (e.g., `happy.png`, `sad.png`, etc.).
-
-### 🧠 Organic Memory & Learning System / 記憶與學習系統
-- Stores short/long-term memory in SQLite.
-- **Advanced Characteristic Learning:** Learns individual characteristics (preferences, habits, user info, pet's self-concept, quirks, favorite topics) from user interactions and its own responses via LLM analysis and regex patterns.
-- Characteristics have relevance scores, decay over time, and can be managed/viewed in settings.
-- Memory and learned traits influence chat topics, response style, and proactive interactions.
-
-### 🧬 Personality Traits (OCEAN) & Demographics / OCEAN五大性格與背景
-- Adjust OCEAN traits: Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism.
-- Set demographic background (culture, age group, gender) influencing language and perspectives.
-- Traits and demographics affect response style, proactive chat frequency, emotional reactions, and web search decisions.
-
-### 📋 Task Management / 任務管理
-- Add, view, mark complete, and delete tasks.
-- Pet may remind you of incomplete tasks based on its Conscientiousness and conversation context.
-
-### 🕒 Sleep Schedule / 作息時間
-- Set pet's sleep and wake times.
-- During sleep time, pet shows sleeping state and won't initiate chats or perform most background tasks.
-
-### 🔄 Ongoing Proactivity / 主動互動
-- Regularly initiates conversations or emotional expressions based on interval settings, personality, learned traits, and current emotional state.
-- If inactive for a long time, pet may feel bored or sad and talk to itself.
-
-### 🎨 Appearance Customization / 可自訂外觀
-- Replace emotion-specific images to customize appearance for different moods. (Default images included)
-
-### ⚙️ Rich Settings Options / 豐富的設定選項
-- **General:** Proactive chat frequency, user location (for weather/context).
-- **Emotion:** Mood stability, emotional sensitivity, decay rate.
-- **Response:** Simulated response delay.
-- **API & Model:**
-    - Select Gemini LLM model (Flash/Pro).
-    - Configure Gemini API Key.
-    - **NEW:** Configure Custom Search API Key and Search Engine ID (CX).
-    - **NEW:** Enable/disable web search and daily news search.
-    - Adjust LLM temperature and max output tokens.
-- **Personality & Background:** Adjust OCEAN traits and demographic info.
-- **Learned Characteristics:** View, filter, sort, and delete learned individual traits.
-- **Current Emotions:** Real-time display of pet's emotional state.
-- Sleep schedule, STM retention days, etc.
-
-### 💾 Data Persistence / 資料庫儲存
-- All emotions, memories, settings, API keys, tasks, learned characteristics, and personality traits are stored persistently in a local SQLite database (`pet_data.db`).
+1.  [Features / 主要功能](#-features--主要功能)
+2.  [Important Security & Privacy Notes / 重要安全與隱私說明](#️-important-security--privacy-notes--重要安全與隱私說明)
+3.  [Requirements / 環境需求](#-requirements--環境需求)
+4.  [Installation / 安裝步驟](#-installation--安裝步驟)
+5.  [Configuration / 設定](#️-configuration--設定)
+6.  [Usage / 如何使用](#️-usage--如何使用)
+7.  [Customization / 自訂](#-customization--自訂)
+8.  [Contributing / 貢獻](#-contributing--貢獻)
+9.  [License / 授權條款](#-license--授權條款)
 
 ---
 
-## ⚠️ Important Security & Privacy Notes / 重要安全與隱私說明
+## Features / 主要功能
 
-**Please read these points carefully before using DeskWifu, especially if you plan to use the API-dependent features.**
+### NEW: Advanced Cognitive & Emotional Core / 先進的認知與情感核心
 
-1.  **API Key Storage and Risk:**
-    * To use AI chat (Google Gemini) and web search (Google Custom Search), you need to provide your own API keys.
-    * **These API keys will be stored locally in the `pet_data.db` SQLite database file in the application's directory.**
-    * While the application itself doesn't transmit your keys elsewhere, anyone with direct access to this `pet_data.db` file on your computer could potentially extract these keys.
-    * **Protect this file as you would any sensitive information.**
-    * Misuse of your API keys by unauthorized parties could lead to unexpected charges on your Google Cloud Platform (GCP) account or API quota exhaustion.
-    * **It is highly recommended to set up budget alerts and API usage quotas in your GCP console for the Gemini API and Custom Search API.**
+-   **Simulated Neurochemistry (`sim_neuro_state`):** 模擬一個內在的神經化學狀態（如動機、壓力、情緒平衡、社交溫暖），動態地影響寵物的行為、情緒穩定性和主動性。
+-   **Core Affect Model (Valence/Arousal):** 情感系統由更底層的「效價」（愉悅/不悅）和「喚醒度」（激動/平靜）模型驅動，產生更自然、更細膩的離散情緒表現。
+-   **Attachment Theory Implementation:** 小星對使用者的「依戀分數」會根據互動品質（如陪伴、讚美、忽視）而變化，深刻影響其語氣、關心程度和分享意願。
+-   **Self-Efficacy Model:** 模擬在不同領域（社交、任務管理、資訊檢索）的「自我效能感」（自信心），影響其行為的主動性和成功/失敗後的反應。
+-   **Emotion Regulation:** 當偵測到強烈的負面情緒時，小星會嘗試「自我調節」，透過 LLM 生成應對想法來平復心情。
 
-2.  **Data Collection and Privacy:**
-    * DeskWifu records and stores various data locally in `pet_data.db` to personalize your experience, including:
-        * Chat history (short-term and long-term memory).
-        * Your expressed preferences, habits, and other information inferred by the LLM.
-        * The pet's emotional history and learned personality traits.
-        * Task lists and application settings.
-    * **Be mindful of the information you share during chats, as it may be stored.**
-    * If privacy is a major concern, you might want to periodically review or clear the `pet_data.db` file (this will reset the pet). Future versions may include in-app data clearing options.
+### AI-Powered Conversations & Hybrid Thinking / 智慧聊天與混合思維
 
-3.  **Web Search Content:**
-    * The web search feature uses Google Custom Search. While you can configure safe search in your Custom Search Engine settings, the internet is vast.
-    * The application attempts to use search results responsibly, but it's not responsible for the content of external websites or search snippets.
-    * You can disable the web search feature entirely in the settings if desired.
+-   由 Google Gemini (Flash/Pro) 提供支援，進行自然、有上下文的對話。
+-   **Hybrid Thinking (System 1/2):** 採用混合思維架構，對簡單的互動（如問候）進行快速、基於規則的「系統一」回應；對複雜對話則啟用完整的「系統二」LLM 思考，兼顧效率與深度。
 
-4.  **Third-Party Services:**
-    * Use of this application involves making calls to third-party services (Google Gemini API, Google Custom Search API). Your use of these services is subject to their respective terms of service and privacy policies.
+### Web Search Integration / 網路搜尋整合
 
-**By using this application, you acknowledge and accept these risks and responsibilities.**
+-   **LLM-Driven Search:** 小星可以自行決定搜尋牠不知道的資訊，或獲取時事背景，使用 Google Custom Search API。
+-   **Daily News Fetching:** 可選擇每日自動獲取新聞摘要，讓小星「了解」時事。
+-   **First-Time Personality Seeding:** 可選擇在首次運行時透過搜尋隨機資料來豐富其初始個性。
 
----
+### Organic Memory & Learning System / 記憶與學習系統
 
-## 💻 Requirements / 環境需求
+-   **LLM-Powered Memory Summarization:** 重要的短期記憶會由 LLM 進行「總結」，轉化為更抽象的長期記憶儲存在 SQLite 中。
+-   **Self-Reflection Learning:** 小星會定期「反思」自己記錄下來的「內心思考」和「口頭回應」，從中提取新的自我認知、興趣點或行為模式，實現真正的自我成長。
+-   **Advanced Characteristic Learning:** 透過 LLM 分析和正則表達式，深入學習使用者的偏好、習慣、個人資訊，以及寵物自身的口頭禪、語言風格和自我概念。
 
--   Python 3.8 or above
--   SQLite3 (usually included with Python)
--   Python packages:
-    -   `tkinter` (usually included with Python)
-    -   `google-generativeai` (for Gemini API)
-    -   `google-api-python-client` (for Custom Search API)
-    -   `Pillow` (for image processing)
+### Personality Traits (OCEAN) & Demographics / OCEAN五大性格與背景
 
-> You can install the necessary Python packages using the `requirements.txt` file (if provided) or individually:
-> ```bash
-> pip install google-generativeai google-api-python-client Pillow
-> ```
-> (If you provide a `requirements.txt`, update it to include `google-api-python-client`)
+-   可自由調整 OCEAN 五大性格特質：經驗開放性 (O)、盡責性 (C)、外向性 (E)、親和性 (A)、神經質性 (N)。
+-   可設定文化、年齡、性別等背景，影響其語言風格和觀點。
+
+### Task Management & Other Features / 任務管理與其他功能
+
+-   完整的任務管理功能：新增、檢視、完成和刪除任務。
+-   **作息時間：** 可設定睡眠和起床時間，影響其行為和狀態。
+-   **主動互動：** 會根據其內在狀態（個性、情緒、動機）主動發起對話或自言自語。
+-   **豐富的設定選項：** 提供極其詳細的設定視窗，可調整幾乎所有認知、情感和行為參數。
+-   **資料庫儲存：** 所有狀態（情感、記憶、個性、設定、API金鑰等）都儲存在本地的 `pet_data.db` 檔案中。
 
 ---
 
-## 🧰 Installation / 安裝步驟
+## Important Security & Privacy Notes / 重要安全與隱私說明
 
-1.  Clone the repository:
+在使用 DeskWifu 前，請仔細閱讀以下說明，特別是當您計劃使用 API 功能時。
+
+-   **API 金鑰儲存與風險:**
+    -   AI 聊天（Google Gemini）和網路搜尋（Google Custom Search）功能需要您提供自己的 API 金鑰。
+    -   這些金鑰將以**明文形式**儲存在您電腦上的 `pet_data.db` 檔案中。**請像保護敏感檔案一樣保護此資料庫檔案**。
+    -   任何能存取此檔案的人都可能獲取您的金鑰，這可能導致您的 Google Cloud Platform (GCP) 帳戶產生非預期費用。
+    -   強烈建議您在 GCP 控制台中為相關 API 設定**預算提醒**和**用量配額**。
+
+-   **資料收集與隱私:**
+    -   本應用會在本地 `pet_data.db` 中記錄大量資料以個人化體驗，包括：聊天紀錄、由 LLM 推斷的您的偏好與習慣、寵物的情緒歷史、任務清單等。
+    -   請注意您在聊天中分享的資訊。如果您極度重視隱私，可以考慮定期清理資料庫檔案（這會重置寵物）。
+
+-   **網路搜尋內容:**
+    -   網路搜尋功能使用 Google Custom Search。應用程式不對外部網站的內容負責。您可以在設定中完全停用此功能。
+
+-   **第三方服務:**
+    -   本應用會呼叫 Google 的第三方服務。您對這些服務的使用受其各自的服務條款和隱私政策約束。
+
+**使用本應用即表示您理解並接受上述風險與責任。**
+
+---
+
+## Requirements / 環境需求
+
+-   Python 3.8 或更高版本
+-   SQLite3 (通常隨 Python 一起安裝)
+-   Python 套件:
+    -   `tkinter` (通常隨 Python 一起安裝)
+    -   `google-generativeai`
+    -   `google-api-python-client`
+    -   `Pillow`
+
+您可以使用 `pip` 單獨安裝所需套件：
+```bash
+pip install google-generativeai google-api-python-client Pillow
+## Installation / 安裝步驟
+
+1.  **複製儲存庫:**
     ```bash
     git clone [https://github.com/xdrxdrxd/DeskWifu.git](https://github.com/xdrxdrxd/DeskWifu.git)
     ```
-2.  Navigate to the project directory:
+2.  **進入專案目錄:**
     ```bash
     cd DeskWifu
     ```
-3.  (Optional, if `requirements.txt` is provided) Install dependencies:
+3.  **安裝依賴套件:**
     ```bash
-    pip install -r requirements.txt
+    pip install google-generativeai google-api-python-client Pillow
     ```
-4.  Ensure you have the necessary image files (e.g., `default.png`, `happy.png`, etc.) in the same directory as the script, or update paths in the `EMOTION_IMAGES` dictionary in the script.
-5.  Run the application:
+4.  **確保圖片檔案存在:**
+    請確保 `default.png`, `happy.png` 等情緒圖片檔案與腳本位於同一目錄中。
+5.  **執行應用程式:**
     ```bash
-    python DeskWifu_1.3.0.py 
+    python DeskWifu_1.5.0.py
     ```
-    (Replace `DeskWifu_1.3.0.py` with the actual script name if different)
+    (如果腳本名稱不同，請替換)
 
 ---
 
-## 🛠️ Configuration / 設定
+## Configuration / 設定
 
-1.  **Database:**
-    * The `pet_data.db` SQLite database file will be automatically created in the application directory upon first launch if it doesn't exist.
+-   **資料庫:**
+    `pet_data.db` 資料庫檔案將在首次啟動時自動建立。
 
-2.  **API Keys (Crucial for Full Functionality):**
-    * **Google Gemini API Key:**
-        * Open the application, go to "File" -> "Settings".
-        * Navigate to the "API & Model" tab.
-        * Click "Set/Change Gemini API Key" and enter your key.
-        * Select your preferred Gemini model (e.g., `gemini-1.5-flash`).
-    * **Google Custom Search API Key & Search Engine ID (CX):**
-        * You need to create a Programmable Search Engine in your Google Cloud Console or Programmable Search Engine control panel.
-        * **Configure this search engine to "Search the entire web" if you want broad search capabilities.**
-        * Obtain your **API Key** for the Custom Search JSON API.
-        * Obtain your **Search Engine ID (CX)** from your Programmable Search Engine settings.
-        * In DeskWifu's settings ("API & Model" tab), enter these into the "Custom Search API Key" and "Search Engine ID (CX)" fields.
+-   **API 金鑰 (核心功能必需):**
+    1.  啟動應用程式，點擊選單「檔案」->「設定」。
+    2.  切換到「API與模型」分頁。
+    3.  **Gemini API:** 點擊「設定/更改 Gemini API 金鑰」並輸入您的金鑰。
+    4.  **Custom Search API:**
+        -   在您的 [Google Programmable Search Engine 控制台](https://programmablesearchengine.google.com/) 建立一個搜尋引擎，並設定為「搜尋整個網路」。
+        -   取得您的 **API 金鑰** 和 **Search Engine ID (CX)**。
+        -   將這兩者填入 DeskWifu 設定中對應的欄位。
 
-3.  **Web Search Features:**
-    * In the "API & Model" tab in settings, you can:
-        * Enable or disable the overall "Web Search Feature".
-        * Enable or disable "Daily Automated News Search".
+-   **其他設定:**
+    所有其他參數（個性、情緒、行為等）都可透過「設定」視窗在對應的分頁中進行調整。點擊「套用全部變更」以儲存。
 
-4.  **Other Settings:**
-    * All other parameters (personality, emotions, behavior, etc.) can be adjusted through the "Settings" window in their respective tabs. Click "Apply All Changes" to save.
+---
+## Usage / 如何使用
+
+1.  啟動應用程式。
+2.  **首次使用請務必前往「設定」->「API与模型」分頁設定您的 API 金鑰。**
+3.  在聊天輸入框中輸入文字，按下 `Enter` 或「傳送」按鈕與小星互動。
+4.  觀察其豐富的情緒反應、記憶引用、學習到的特徵以及各種認知行為！
 
 ---
 
-## ▶️ Usage / 如何使用
+## Customization / 自訂
 
-1.  Launch the application (`python DeskWifu_1.3.0.py`).
-2.  The 小星 desktop pet window will appear.
-3.  **Crucially, configure your API keys via "File" -> "Settings" -> "API & Model" tab for AI chat and web search features to work.**
-4.  Customize other parameters as desired in the settings.
-5.  Interact with 小星 by typing in the chat input field and pressing Enter or clicking "Send".
-6.  Observe its emotional responses, memory recall, learned traits, and potential web search actions!
+-   **圖片:** 您可以替換目錄中的 `.png` 圖片來自訂小星的外觀，只需保持檔名與 `EMOTION_IMAGES` 字典中的鍵名一致即可。
+-   **資料庫:** 進階使用者可以使用 SQLite 瀏覽器查看 `pet_data.db`，但不建議直接修改，以免損壞寵物狀態。
 
 ---
 
-## 🧑‍🎨 Customization / 自訂
+## Contributing / 貢獻
 
--   **Images:**
-    * Default emotion images (e.g., `happy.png`, `sad.png`, `neutral.png`, `thinking.png`, etc.) should be placed in the same directory as the script or their paths updated in the `EMOTION_IMAGES` dictionary within the script.
-    * You can replace these images with your own, keeping the filenames consistent for automatic loading based on emotion.
--   **Database:**
-    * Advanced users can inspect the `pet_data.db` file using an SQLite browser, but direct modification is not recommended unless you know what you're doing, as it might corrupt the pet's state.
+歡迎提交 Pull Request。對於重大變更，請先建立一個 Issue 進行討論。請確保您的貢獻符合專案目標，即創造一個引人入勝且可自訂的桌面伴侶，同時考慮使用者隱私和 API 使用責任。
 
 ---
 
-## 🤝 Contributing / 貢獻
+## License / 授權條款
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-Please ensure any contributions align with the project's goal of creating an engaging and customizable desktop companion, while also considering user privacy and API usage responsibility.
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 
----
 
-## 📜 License / 授權條款
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+
+
 ---
 ---
 # DeskWifu 小星桌寵 (版本 1.0.0)
