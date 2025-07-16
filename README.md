@@ -107,6 +107,7 @@ DeskWifu (小星桌寵) v1.5.0 is a significant evolution, transforming the inte
 您可以使用 `pip` 單獨安裝所需套件：
 ```bash
 pip install google-generativeai google-api-python-client Pillow
+```
 ## Installation / 安裝步驟
 
 1.  **複製儲存庫:**
