@@ -1,4 +1,5 @@
 # DeskWifu 小星桌寵 (版本 1.5.0 - 認知進化版)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Collaboration Effort / 合作成果**
 
