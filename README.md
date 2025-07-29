@@ -1,6 +1,7 @@
 # DeskWifu 小星桌寵 (版本 1.5.1 - 認知進化版)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+使用前務必前往註冊Google Gemini API 和 custom search API 註冊完拿到金鑰輸進資料庫即可 搜尋有時候會失敗 哈哈 
 **Collaboration Effort / 合作成果**
 
 **English:** This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including Google Gemini, OpenAI ChatGPT, and xAI Grok. It represents a fusion of human creativity and AI capabilities.
