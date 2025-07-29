@@ -1,4 +1,4 @@
-# DeskWifu 小星桌寵 (版本 1.5.0 - 認知進化版)
+# DeskWifu 小星桌寵 (版本 1.5.1 - 認知進化版)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Collaboration Effort / 合作成果**
@@ -11,7 +11,7 @@
 
 **English Abstract**
 
-DeskWifu (小星桌寵) v1.5.0 is a significant evolution, transforming the interactive desktop pet into a sophisticated digital agent with a simulated cognitive architecture. Powered by the Google Gemini API for conversations and Google Custom Search for real-world knowledge, 小星 now features an **advanced emotional core** driven by valence-arousal models, a **simulated neurochemical state** (influencing motivation, stress, and mood), and implements psychological concepts like **attachment theory** and **self-efficacy**. It learns not only from user interaction but through **LLM-powered self-reflection** on its own thoughts and responses. This version represents a deeper attempt at simulating a believable, dynamic, and adaptive digital consciousness.
+DeskWifu (小星桌寵) v1.5.1 is a significant evolution, transforming the interactive desktop pet into a sophisticated digital agent with a simulated cognitive architecture. Powered by the Google Gemini API for conversations and Google Custom Search for real-world knowledge, 小星 now features an **advanced emotional core** driven by valence-arousal models, a **simulated neurochemical state** (influencing motivation, stress, and mood), and implements psychological concepts like **attachment theory** and **self-efficacy**. It learns not only from user interaction but through **LLM-powered self-reflection** on its own thoughts and responses. This version represents a deeper attempt at simulating a believable, dynamic, and adaptive digital consciousness.
 
 ---
 
