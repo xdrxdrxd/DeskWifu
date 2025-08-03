@@ -1,9 +1,12 @@
-# DeskWifu 小星桌寵 (版本 1.5.2 - 認知進化版)
+# DeskWifu (小星): A Stateful Generative Agent with a Simulated Cognitive Architecture
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-使用前務必前往註冊Google Gemini API 和 custom search API 註冊完拿到金鑰和CX ID輸進資料庫即可 搜尋有時候會失敗 哈哈 可以按自己喜好去改程式內部的提示 特別在搜尋的謹慎度和預設個性的部分
+**前言：** 本專案需要使用者自行註冊 Google Gemini API 和 Google Custom Search API，並在應用程式的設定中填入對應的金鑰 (API Key) 與搜尋引擎 ID (CX ID)。由於網路環境因素，搜尋功能可能偶爾失敗。強烈建議使用者根據個人偏好，調整程式碼內部關於模型行為的提示 (Prompts)，特別是在搜尋決策的謹慎度和角色的預設個性方面。
 
-**Collaboration Effort / 合作成果**
+---
+
+### Collaboration Effort / 合作成果
 
 **English:** This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including Google Gemini, OpenAI ChatGPT, and xAI Grok. It represents a fusion of human creativity and AI capabilities.
 
@@ -11,16 +14,16 @@
 
 ---
 
-**English Abstract**
+### English Abstract
 
-DeskWifu (小星桌寵) v1.5.1 is a significant evolution, transforming the interactive desktop pet into a sophisticated digital agent with a simulated cognitive architecture. Powered by the Google Gemini API for conversations and Google Custom Search for real-world knowledge, 小星 now features an **advanced emotional core** driven by valence-arousal models, a **simulated neurochemical state** (influencing motivation, stress, and mood), and implements psychological concepts like **attachment theory** and **self-efficacy**. It learns not only from user interaction but through **LLM-powered self-reflection** on its own thoughts and responses. This version represents a deeper attempt at simulating a believable, dynamic, and adaptive digital consciousness.
+DeskWifu (小星) v1.5.2 represents a significant leap forward, evolving the concept of an interactive desktop pet into a sophisticated, **stateful generative agent** equipped with a simulated **cognitive architecture**. The agent's core is powered by the Google Gemini API for generative tasks and leverages a **Retrieval-Augmented Generation (RAG)** pipeline via Google Custom Search for access to real-world knowledge. Its behavior is governed by an advanced **affective computing model** based on valence and arousal, a simulated neurochemical state influencing motivation and mood, and implementations of psychological frameworks like **attachment theory** and **self-efficacy**. Crucially, the agent exhibits **meta-cognition** and **continual learning** capabilities, learning not only from user interaction but also through LLM-powered **introspective reflection** on its own internal thoughts and generated responses. This version is an advanced implementation of a believable, dynamic, and adaptive digital consciousness.
 
 ---
 
-**Table of Contents / 目錄**
+### Table of Contents / 目錄
 
-1.  [Features / 主要功能](#-features--主要功能)
-2.  [Important Security & Privacy Notes / 重要安全與隱私說明](#️-important-security--privacy-notes--重要安全與隱私說明)
+1.  [Features / 核心技術](#-features--核心技術)
+2.  [Security & Privacy / 安全與隱私](#️-security--privacy--安全與隱私)
 3.  [Requirements / 環境需求](#-requirements--環境需求)
 4.  [Installation / 安裝步驟](#-installation--安裝步驟)
 5.  [Configuration / 設定](#️-configuration--設定)
@@ -31,49 +34,39 @@ DeskWifu (小星桌寵) v1.5.1 is a significant evolution, transforming the inte
 
 ---
 
-## Features / 主要功能
+## Features / 核心技術
 
-### NEW: Advanced Cognitive & Emotional Core / 先進的認知與情感核心
+### 🧠 Cognitive Architecture & Affective Computing / 認知架構與情感計算
 
--   **Simulated Neurochemistry (`sim_neuro_state`):** 模擬一個內在的神經化學狀態（如動機、壓力、情緒平衡、社交溫暖），動態地影響寵物的行為、情緒穩定性和主動性。
--   **Core Affect Model (Valence/Arousal):** 情感系統由更底層的「效價」（愉悅/不悅）和「喚醒度」（激動/平靜）模型驅動，產生更自然、更細膩的離散情緒表現。
--   **Attachment Theory Implementation:** 小星對使用者的「依戀分數」會根據互動品質（如陪伴、讚美、忽視）而變化，深刻影響其語氣、關心程度和分享意願。
--   **Self-Efficacy Model:** 模擬在不同領域（社交、任務管理、資訊檢索）的「自我效能感」（自信心），影響其行為的主動性和成功/失敗後的反應。
--   **Emotion Regulation:** 當偵測到強烈的負面情緒時，小星會嘗試「自我調節」，透過 LLM 生成應對想法來平復心情。
+-   **Stateful Agent with Simulated Neurochemistry:** 實現了一個持久化的狀態系統 (`sim_neuro_state`)，模擬內在神經化學物質對動機 (多巴胺)、壓力 (皮質醇)、情緒平衡 (血清素) 和社交連結 (催產素) 的影響，從而驅動更具動態性和一致性的代理行為。
+-   **Valence-Arousal Affective Model:** 情感核心基於心理學的「效價-喚醒度 (Valence-Arousal)」模型，將複雜的情感狀態映射到二維空間，再生成更細膩、更自然的離散情緒表現，實現了先進的情感計算。
+-   **Dynamic Relational Modeling (Attachment Theory):** 代理與使用者之間的「依戀分數」是一個動態變數，它根據互動品質（如有效陪伴、讚美、忽視）進行即時調整，深刻影響代理的社交行為、語氣和決策。
+-   **Agent Self-Efficacy Simulation:** 代理在多個領域（社交、任務管理、資訊檢索）維護一個「自我效能」分數，模擬其對自身能力的信心，此分數會因任務的成敗而動態變化，影響其主動性和情緒反應。
+-   **Simulated Cognitive Reappraisal (Emotion Regulation):** 當代理偵測到強烈的負面情緒時，會觸發一個模擬「認知重評」的自我調節機制，利用 LLM 生成應對策略 (Coping Strategy) 來平復內在狀態。
 
-### AI-Powered Conversations & Hybrid Thinking / 智慧聊天與混合思維
+### 📚 Memory & Continual Learning / 記憶與持續學習
 
--   由 Google Gemini (Flash/Pro) 提供支援，進行自然、有上下文的對話。
--   **Hybrid Thinking (System 1/2):** 採用混合思維架構，對簡單的互動（如問候）進行快速、基於規則的「系統一」回應；對複雜對話則啟用完整的「系統二」LLM 思考，兼顧效率與深度。
+-   **Memory Consolidation via Abstractive Summarization:** 代理具備記憶鞏固機制。重要的短期記憶 (STM) 會被定期提取，並由 LLM 進行**摘要式總結 (Abstractive Summarization)**，轉化為更抽象、更穩定的長期記憶 (LTM) 存入 SQLite 資料庫。
+-   **Introspective Learning (Self-Reflection):** 代理會定期進行**元認知 (Meta-cognition)**，分析自己儲存的「內心思考 (`internal_thought`)」日誌，從中歸納出新的自我認知、興趣點或行為模式，實現了真正的**內省式學習**和自我成長。
+-   **User Profile Modeling & Persona Adaptation:** 透過 LLM 分析和規則引擎，持續地從對話中學習並建立使用者畫像（偏好、習慣、個人資訊），同時也學習並強化自身的語言風格和人格特質，使代理具有高度的個人化與適應性。
 
-### Web Search Integration / 網路搜尋整合
+### ⚙️ Hybrid AI System & Tool Use / 混合式 AI 系統與工具使用
 
--   **LLM-Driven Search:** 小星可以自行決定搜尋牠不知道的資訊，或獲取時事背景，使用 Google Custom Search API。
--   **Daily News Fetching:** 可選擇每日自動獲取新聞摘要，讓小星「了解」時事。
--   **First-Time Personality Seeding:** 可選擇在首次運行時透過搜尋隨機資料來豐富其初始個性。
+-   **Dual-Process Cognitive Architecture (System 1/2):** 採用了類比人類思維的雙系統架構。對簡單指令（如問候）採用快速、低成本的規則式「系統一」回應；對複雜查詢則啟動完整的「系統二」，即由 Gemini LLM 驅動的深度思考，實現了效率與深度的平衡。
+-   **Retrieval-Augmented Generation (RAG) & Native Tool Use:**
+    -   **內部 RAG:** 代理在生成回應前，會從其內部知識庫（短期記憶、長期記憶、個體特徵）中**檢索**相關上下文，以**增強**其 Prompt，確保回應的個人化和一致性。
+    -   **外部 RAG (Tool Use):** 代理具備原生工具使用能力。它可以自主判斷何時需要外部資訊，並呼叫 `custom_search` 等工具來查詢 Google 搜尋引擎，實現了與真實世界的資訊互動。
+-   **Proactive Agency & Goal-Oriented Behavior:** 代理不僅僅被動回應，它會根據其內在動機和狀態，自主地發起對話、進行任務提醒或表達情感，展現出主動性和目標導向的行為。
 
-### Organic Memory & Learning System / 記憶與學習系統
+### 📋 Core Agent Features / 核心代理功能
 
--   **LLM-Powered Memory Summarization:** 重要的短期記憶會由 LLM 進行「總結」，轉化為更抽象的長期記憶儲存在 SQLite 中。
--   **Self-Reflection Learning:** 小星會定期「反思」自己記錄下來的「內心思考」和「口頭回應」，從中提取新的自我認知、興趣點或行為模式，實現真正的自我成長。
--   **Advanced Characteristic Learning:** 透過 LLM 分析和正則表達式，深入學習使用者的偏好、習慣、個人資訊，以及寵物自身的口頭禪、語言風格和自我概念。
-
-### Personality Traits (OCEAN) & Demographics / OCEAN五大性格與背景
-
--   可自由調整 OCEAN 五大性格特質：經驗開放性 (O)、盡責性 (C)、外向性 (E)、親和性 (A)、神經質性 (N)。
--   可設定文化、年齡、性別等背景，影響其語言風格和觀點。
-
-### Task Management & Other Features / 任務管理與其他功能
-
--   完整的任務管理功能：新增、檢視、完成和刪除任務。
--   **作息時間：** 可設定睡眠和起床時間，影響其行為和狀態。
--   **主動互動：** 會根據其內在狀態（個性、情緒、動機）主動發起對話或自言自語。
--   **豐富的設定選項：** 提供極其詳細的設定視窗，可調整幾乎所有認知、情感和行為參數。
--   **資料庫儲存：** 所有狀態（情感、記憶、個性、設定、API金鑰等）都儲存在本地的 `pet_data.db` 檔案中。
+-   **Big Five Personality Model (OCEAN):** 代理的核心人格由 OCEAN 五大性格模型定義，所有參數均可透過 UI 進行客製化。
+-   **Task-Oriented Capabilities:** 內建完整的任務管理工具，可由使用者或代理自身透過對話來新增、查詢及管理待辦事項。
+-   **Persistent State Management:** 代理的所有狀態，包括認知參數、情感歷史、記憶、API 金鑰等，均持久化儲存於本地 SQLite 資料庫中。
 
 ---
 
-## Important Security & Privacy Notes / 重要安全與隱私說明
+## 🛡️ Security & Privacy / 安全與隱私
 
 在使用 DeskWifu 前，請仔細閱讀以下說明，特別是當您計劃使用 API 功能時。
 
