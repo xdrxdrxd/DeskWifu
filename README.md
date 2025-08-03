@@ -1,4 +1,4 @@
-# DeskWifu (小星): A Stateful Generative Agent with a Simulated Cognitive Architecture
+# DeskWifu 1.5.2 (小星): A Stateful Generative Agent with a Simulated Cognitive Architecture
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
