@@ -122,7 +122,7 @@ pip install google-generativeai google-api-python-client Pillow
     請確保 `default.png`, `happy.png` 等情緒圖片檔案與腳本位於同一目錄中。
 5.  **執行應用程式:**
     ```bash
-    python DeskWifu_1.5.0.py
+    python DeskWifu_1.5.2.py
     ```
     (如果腳本名稱不同，請替換)
 
