@@ -172,6 +172,9 @@ DeskWifu_1.6.0/
 │   ├── personality_system.py # 個性與特徵邏輯
 │   ├── memory_system.py      # 記憶邏輯
 │   └── pet_logic.py          # 組合核心邏輯的「大腦」
+├── assets/
+│   ├── default.py            # 圖片
+│   └── .....py         
 ├── services/
 │   ├── base_services.py      # 定義服務的抽象基礎類別 (ABC)
 │   ├── llm_service.py        # Gemini LLM 服務的具體實作
