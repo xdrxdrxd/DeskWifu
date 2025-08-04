@@ -161,6 +161,7 @@ pip install google-generativeai google-api-python-client Pillow
 -   **資料庫:** 進階使用者可以使用 SQLite 瀏覽器查看 `pet_data.db`，但不建議直接修改，以免損壞寵物狀態。
 
 ---
+```
 ## 檔案結構
 DeskWifu_1.6.0/
 ├── main.py                   # 應用程式啟動入口
@@ -178,7 +179,8 @@ DeskWifu_1.6.0/
 └── ui/
     ├── main_window.py        # 主UI視窗 (重構後的 PetApp)
     └── settings_window.py    # 設定視窗
-    
+```   
+---
 ## Contributing / 貢獻
 
 歡迎提交 Pull Request。對於重大變更，請先建立一個 Issue 進行討論。請確保您的貢獻符合專案目標，即創造一個引人入勝且可自訂的桌面伴侶，同時考慮使用者隱私和 API 使用責任。
