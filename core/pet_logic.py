@@ -34,8 +34,8 @@ class PetLogic:
             self.db.save_app_setting(config.SETTING_USER_ID, self.user_id)
             self.settings[config.SETTING_USER_ID] = self.user_id
         
-        self.emotion_system = EmotionSystem(self.db, self.user_id, self.settings)
         self.personality_system = PersonalitySystem(self.db, self.user_id, self.settings, self.llm)
+        self.emotion_system = EmotionSystem(self.db, self.user_id, self.settings, self.llm, self.personality_system)
         self.memory_system = MemorySystem(self.db, self.llm, self.user_id, self.settings)
         
         self.llm_history: List[Dict[str, Any]] = []
@@ -206,6 +206,7 @@ class PetLogic:
             self.personality_system.get_demographic_description(),
             self.personality_system.get_attachment_description_for_llm(),
             self.personality_system.get_self_efficacy_description_for_llm(),
+            self.personality_system.get_neuro_state_description_for_llm(), # --- [新增] 這一行 ---
             self.personality_system.get_characteristics_description_for_llm(),
             f"現在是 {datetime.now().strftime('%Y年%m月%d日 %H:%M')}。"
         ]
@@ -244,10 +245,11 @@ class PetLogic:
         """檢查並更新寵物的睡眠狀態"""
         now = datetime.now()
         current_time_val = now.time()
-        bedtime_h = int(self.settings.get(config.SETTING_BEDTIME_HOUR, 23))
+        bedtime_h = int(self.settings.get(config.SETTING_BEDTIME_HOUR, 1))
         bedtime_m = int(self.settings.get(config.SETTING_BEDTIME_MINUTE, 0))
         wakeup_h = int(self.settings.get(config.SETTING_WAKEUP_HOUR, 7))
         wakeup_m = int(self.settings.get(config.SETTING_WAKEUP_MINUTE, 0))
+        print(f"DEBUG SLEEP CHECK: Reading bedtime as {bedtime_h}:{bedtime_m}, wakeup as {wakeup_h}:{wakeup_m}")
         bed_time = dt_time(bedtime_h, bedtime_m)
         wake_time = dt_time(wakeup_h, wakeup_m)
         was_sleeping = self.is_sleeping
@@ -287,13 +289,20 @@ class PetLogic:
         """執行所有定期的背景維護任務。"""
         logging.debug("Performing periodic maintenance tasks...")
         self._check_sleep_schedule()
+
+        # --- [新增] 先執行 personality_system 維護，以更新 effective 參數 ---
+        self.personality_system.periodic_maintenance() 
+
         if not self.is_sleeping:
-            self.emotion_system.decay_emotions(self.settings.get(config.SETTING_MOOD_STABILITY, 0.3))
+            # --- [修改] 使用 personality_system 計算出的動態參數 ---
+            self.emotion_system.decay_emotions(self.personality_system.effective_mood_stability)
             self.emotion_system.decay_core_affect(is_sleeping=False)
-            self.emotion_system.apply_random_fluctuations(self.settings.get(config.SETTING_MOOD_STABILITY, 0.3))
+            self.emotion_system.apply_random_fluctuations(self.personality_system.effective_mood_stability)
+            # --- 修改結束 ---
             self.perform_daily_news_search_async()
+            
         self.memory_system.periodic_maintenance()
-        self.personality_system.periodic_maintenance()
+        # self.personality_system.periodic_maintenance() # --- [移動] 已移到前面 ---
         return {"new_emotion_for_ui": "sleepy" if self.is_sleeping else self.emotion_system.get_dominant_emotion_for_display()}
 
     def get_full_debug_status_report(self) -> str:
