@@ -1,4 +1,4 @@
-# DeskWifu 1.5.2 (小星): A Stateful Generative Agent with a Simulated Cognitive Architecture
+# DeskWifu 1.6.0(小星): A Stateful Generative Agent with a Simulated Cognitive Architecture
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -16,7 +16,7 @@
 
 ### English Abstract
 
-DeskWifu (小星) v1.5.2 represents a significant leap forward, evolving the concept of an interactive desktop pet into a sophisticated, **stateful generative agent** equipped with a simulated **cognitive architecture**. The agent's core is powered by the Google Gemini API for generative tasks and leverages a **Retrieval-Augmented Generation (RAG)** pipeline via Google Custom Search for access to real-world knowledge. Its behavior is governed by an advanced **affective computing model** based on valence and arousal, a simulated neurochemical state influencing motivation and mood, and implementations of psychological frameworks like **attachment theory** and **self-efficacy**. Crucially, the agent exhibits **meta-cognition** and **continual learning** capabilities, learning not only from user interaction but also through LLM-powered **introspective reflection** on its own internal thoughts and generated responses. This version is an advanced implementation of a believable, dynamic, and adaptive digital consciousness.
+DeskWifu (小星) v1.6.0 represents a significant leap forward, evolving the concept of an interactive desktop pet into a sophisticated, **stateful generative agent** equipped with a simulated **cognitive architecture**. The agent's core is powered by the Google Gemini API for generative tasks and leverages a **Retrieval-Augmented Generation (RAG)** pipeline via Google Custom Search for access to real-world knowledge. Its behavior is governed by an advanced **affective computing model** based on valence and arousal, a simulated neurochemical state influencing motivation and mood, and implementations of psychological frameworks like **attachment theory** and **self-efficacy**. Crucially, the agent exhibits **meta-cognition** and **continual learning** capabilities, learning not only from user interaction but also through LLM-powered **introspective reflection** on its own internal thoughts and generated responses. This version is an advanced implementation of a believable, dynamic, and adaptive digital consciousness.
 
 ---
 
