@@ -3,28 +3,30 @@ import random
 import logging
 import math
 from typing import Dict, Optional
-
+import threading
 import config
 from database import DatabaseManager
-
+from services.base_services import LLMService
+import time
 class EmotionSystem:
     """管理寵物的所有情緒邏輯，包括離散情緒和核心情感模型。"""
 
-    def __init__(self, db_manager: DatabaseManager, user_id: str, settings: Dict):
+    def __init__(self, db_manager: DatabaseManager, user_id: str, settings: Dict, llm_service: Optional[LLMService], personality_system: 'PersonalitySystem'):
         self.db = db_manager
         self.user_id = user_id
         self.settings = settings
+        self.llm = llm_service  # 新增
+        self.personality_system = personality_system # 新增
         self.emotions = self.db.load_emotions(self.user_id)
         
-        # 如果是全新使用者或資料庫損毀，則用預設值重新初始化
         if not self.emotions or all(v == 0.5 for v in self.emotions.values()):
             self.emotions = config.EMOTIONS.copy()
             for name, val in self.emotions.items():
                 self.db.save_emotion(self.user_id, name, val, trigger_event="initialization_or_reset")
             logging.info(f"Emotions initialized/reset for user {self.user_id}")
         
-        # 核心情感狀態 (Valence-Arousal Model)
         self.core_affect = {"valence": 0.0, "arousal": 0.0}
+        self._last_regulation_attempt_time = 0 # 新增
 
     def get_current_emotions(self) -> Dict[str, float]:
         """返回當前的情緒字典的副本"""
@@ -158,21 +160,34 @@ class EmotionSystem:
         valence = self.core_affect["valence"]
         arousal = self.core_affect["arousal"]
 
-        # 這是一個簡化的映射，完整的映射規則應從原始檔案的
-        # _map_core_affect_to_discrete_emotions 方法中遷移過來。
         # 例如：
         if valence > 0.3 and arousal > 0.4: # V+, A+ -> Joy, Excitement
             self._adjust_discrete_emotion('joy', (valence + arousal) / 2, trigger, sensitivity)
             self._adjust_discrete_emotion('excitement', arousal, trigger, sensitivity)
         elif valence < -0.3 and arousal > 0.4: # V-, A+ -> Anger, Fear, Anxiety
             self._adjust_discrete_emotion('anxiety', (abs(valence) + arousal) / 2, trigger, sensitivity)
-        # ... 其他映射規則 ...
-
+        
         # 壓制不符合當前核心情感的離散情緒
         if valence > 0.5:
             for emo in config.NEGATIVE_EMOTIONS: self._adjust_discrete_emotion(emo, 0.1, trigger, 0.5)
         elif valence < -0.5:
             for emo in config.POSITIVE_EMOTIONS: self._adjust_discrete_emotion(emo, 0.1, trigger, 0.5)
+        key_negative_emotions = ['anxiety', 'sadness', 'fear', 'anger', 'frustration']
+        strongest_neg_emotion = None
+        max_intensity = 0.70 # 設定觸發閾值
+        
+        for emo in key_negative_emotions:
+            if self.emotions.get(emo, 0.0) > max_intensity:
+                max_intensity = self.emotions[emo]
+                strongest_neg_emotion = emo
+        
+        if strongest_neg_emotion:
+            # 使用 threading.Timer 在短暫延遲後非阻塞地執行，避免卡住主流程
+            threading.Timer(
+                random.uniform(0.5, 1.5), 
+                self._attempt_emotion_regulation, 
+                args=(strongest_neg_emotion, max_intensity)
+            ).start()
 
     def _adjust_discrete_emotion(self, name: str, target: float, trigger: str, sensitivity_mod: float):
         """輔助函式，以一定速率調整單個離散情緒值"""
@@ -186,3 +201,66 @@ class EmotionSystem:
         if abs(new_val - prev_val) > 0.01:
             self.emotions[name] = new_val
             self.db.save_emotion(self.user_id, name, new_val, prev_val, f"{trigger}_va_map")
+    def _attempt_emotion_regulation(self, dominant_negative_emotion: str, intensity: float):
+        """當偵測到強烈負面情緒時，嘗試進行認知重評以進行情緒調節。"""
+        if not self.llm:
+            logging.warning("Emotion Regulation skipped: LLM service not available.")
+            return
+
+        now = time.time()
+        if now - self._last_regulation_attempt_time < 90: # 至少間隔90秒
+            logging.debug("Emotion Regulation throttled, last attempt too recent.")
+            return
+        self._last_regulation_attempt_time = now
+        
+        neuroticism = self.personality_system.character_traits.get(config.SETTING_OCEAN_NEUROTICISM, 0.5)
+        conscientiousness = self.personality_system.character_traits.get(config.SETTING_OCEAN_CONSCIENTIOUSNESS, 0.5)
+
+        attempt_probability = 0.6 * (1 + (conscientiousness - 0.5) * 0.4) * (1 - (neuroticism - 0.5) * 0.5)
+        if random.random() > attempt_probability:
+            logging.debug(f"Emotion Regulation: Skipped for {dominant_negative_emotion} due to probability check.")
+            return
+
+        logging.info(f"Attempting emotion regulation for '{dominant_negative_emotion}' (Intensity: {intensity:.2f})")
+
+        coping_prompt = (
+            f"你 (小星) 目前感到非常強烈的「{dominant_negative_emotion}」。\n"
+            "請生成一句非常簡短的、能幫助你稍微平復這種負面情緒的「自我安慰」或「積極轉念」的想法。\n"
+            "這個想法是你的內心獨白。例如：「深呼吸，會沒事的。」或「這只是暫時的感覺。」\n"
+            "請只輸出這個想法本身，不要有任何其他文字。"
+        )
+        
+        try:
+            prompt_details = {
+                "contents": [{"role": "user", "parts": [{"text": coping_prompt}]}],
+                "generation_config": {"temperature": 0.6, "max_output_tokens": 50}
+            }
+            response = self.llm.generate_content(prompt_details)
+            coping_thought = response.get("spoken_response", "").strip().replace("\"", "").replace("「", "").replace("」", "")
+
+            if not coping_thought: return
+
+            self.db.save_memory(
+                user_id=self.user_id, content=f"小星的調節想法 ({dominant_negative_emotion}): {coping_thought}", 
+                is_long_term=False, importance=0, status='remembered', pet_emotions_json=None,
+                user_emotions_json=None, keywords=None, emotional_intensity=0.1
+            )
+
+            effectiveness = (0.05 + (conscientiousness - 0.4) * 0.1) * (1.0 - (neuroticism - 0.5) * 0.6)
+            effectiveness = max(0.01, min(0.15, effectiveness * intensity))
+
+            prev_intensity = self.emotions[dominant_negative_emotion]
+            self.emotions[dominant_negative_emotion] = max(0.0, prev_intensity - effectiveness)
+            
+            if abs(self.emotions[dominant_negative_emotion] - prev_intensity) > 0.01:
+                self.db.save_emotion(self.user_id, dominant_negative_emotion, self.emotions[dominant_negative_emotion], 
+                                     prev_intensity, "self_regulation_coping")
+                logging.info(f"Emotion Regulation: '{dominant_negative_emotion}' reduced by {effectiveness:.3f}.")
+                
+                # 觸發個性事件
+                self.personality_system.handle_significant_event(
+                    "successful_self_regulation", 
+                    strength_modifier=0.05 + conscientiousness * 0.05 - neuroticism * 0.03
+                )
+        except Exception as e:
+            logging.error(f"Error during emotion regulation LLM call: {e}", exc_info=True)
