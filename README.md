@@ -122,7 +122,7 @@ pip install google-generativeai google-api-python-client Pillow
     請確保 `default.png`, `happy.png` 等情緒圖片檔案與腳本位於同一目錄中。
 5.  **執行應用程式:**
     ```bash
-    python DeskWifu_1.5.2.py
+    python main.py
     ```
     (如果腳本名稱不同，請替換)
 
@@ -161,7 +161,26 @@ pip install google-generativeai google-api-python-client Pillow
 -   **資料庫:** 進階使用者可以使用 SQLite 瀏覽器查看 `pet_data.db`，但不建議直接修改，以免損壞寵物狀態。
 
 ---
-
+## 檔案結構
+DeskWifu_Refactored/
+├── main.py                   # 應用程式啟動入口
+├── config.py                 # 儲存所有常數與設定鍵
+├── database.py               # 資料庫管理員
+|
+├── core/
+│   ├── emotion_system.py     # 情緒邏輯
+│   ├── personality_system.py # 個性與特徵邏輯
+│   ├── memory_system.py      # 記憶邏輯
+│   └── pet_logic.py          # 組合核心邏輯的「大腦」
+|
+├── services/
+│   ├── base_services.py      # 定義服務的抽象基礎類別 (ABC)
+│   ├── llm_service.py        # Gemini LLM 服務的具體實作
+│   └── search_service.py     # Google 搜尋服務的具體實作
+|
+└── ui/
+    ├── main_window.py        # 主UI視窗 (重構後的 PetApp)
+    └── settings_window.py    # 設定視窗
 ## Contributing / 貢獻
 
 歡迎提交 Pull Request。對於重大變更，請先建立一個 Issue 進行討論。請確保您的貢獻符合專案目標，即創造一個引人入勝且可自訂的桌面伴侶，同時考慮使用者隱私和 API 使用責任。
@@ -178,159 +197,6 @@ This project is licensed under the MIT License - see the `LICENSE` file for deta
 
 
 ---
----
-# DeskWifu 小星桌寵 (版本 1.0.0)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-## ✨ Collaboration Effort / 合作成果 ✨
-
-**English:**  
-This project is a collaborative creation by xdrxdrxd, with significant contributions, brainstorming, and code generation assistance from multiple AI models, including **Google Gemini**, **OpenAI ChatGPT**, and **xAI Grok**. It represents a fusion of human creativity and AI capabilities.
-
-**中文:**  
-本專案由 xdrxdrxd 主導，並在 **Google Gemini**、**OpenAI ChatGPT** 及 **xAI Grok** 等多個大型語言模型的深度參與、腦力激盪與程式碼生成協助下共同建構而成，是人類創意與 AI 智慧的結晶。
-
----
-
-## 📝 English Abstract
-
-DeskWifu (小星桌寵) is a Python-based interactive desktop pet application powered by Google Gemini API. It simulates emotions, maintains short-term and long-term memory stored in SQLite, and interacts with the user through natural language chat. The application leverages Tkinter for its graphical interface and offers high customization through user settings, allowing adjustments to personality traits, emotional responses, appearance, and more.
-
----
-
-## 📋 Table of Contents / 目錄
-
-- [Features / 主要功能](#-features--主要功能)
-- [Requirements / 環境需求](#-requirements--環境需求)
-- [Installation / 安裝步驟](#-installation--安裝步驟)
-- [Configuration / 設定](#️-configuration--設定)
-- [Usage / 如何使用](#️-usage--如何使用)
-- [Customization / 自訂](#️-customization--自訂)
-- [Project Structure / 專案結構](#-project-structure--專案結構)
-- [Contributing / 貢獻](#-contributing--貢獻)
-- [License / 授權條款](#-license--授權條款)
-
----
-
-## ✨ Features / 主要功能
-
-### 💬 AI-Powered Conversations / 智慧聊天
-- Powered by Google Gemini (Flash/Pro models) for natural, contextual dialogues.
-- Simulates modern, casual slang used by young people in Taiwan for relatable chats.
-
-### 😄 Natural Emotional Simulation / 動態情緒系統
-- Mimics emotions (happy, sad, bored, anxious) based on interaction, time, and traits, with time-based decay.
-- Emotion changes trigger different images (e.g., `happy.png`, `sad.png`, etc.).
-
-### 🧠 Organic Memory System / 記憶系統
-- Stores short/long-term memory in SQLite, simulates forgetting/recall with customizable probabilities.
-- Memory content influences chat topics and references to past events.
-
-### 🧬 Personality Traits (OCEAN) / OCEAN 五大性格特質
-- Adjust traits: Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism.
-- Traits affect response style, proactive chat frequency, and content.
-
-### 📋 Task Management / 任務管理
-- Add, view, mark complete, and delete tasks via settings window.
-- Pet may remind you of incomplete tasks based on Conscientiousness trait.
-
-### 🕒 Sleep Schedule / 作息時間
-- Set pet's sleep and wake times.
-- During sleep time, pet shows sleeping state and won't initiate chats.
-
-### 🔄 Ongoing Proactivity / 主動互動
-- Regularly initiates conversations or emotional expressions based on interval settings and personality traits.
-- If inactive for a long time, pet may feel bored or sad and talk to itself.
-
-### 🎨 Appearance Customization / 可自訂外觀
-- Change pet's base appearance via "File" -> "Import Image...".
-- Replace emotion-specific images to customize appearance for different moods.
-
-### ⚙️ Rich Settings Options / 豐富的設定選項
-- Adjust emotional response parameters (sensitivity, stability, decay speed, etc.).
-- Behavior pattern parameters (proactive chat frequency, response delay simulation, memory forget/recall probabilities, etc.).
-- LLM settings (response temperature, max tokens, model selection).
-- Sleep schedule, location (for potential future weather features), etc.
-
-### 💾 Data Persistence / 資料庫儲存
-- All emotions, memories, settings, API keys, and tasks are stored persistently in SQLite database (`pet_data.db`).
-
----
-
-## 💻 Requirements / 環境需求
-
-- Python 3.8 or above  
-- SQLite3  
-- Python packages:
-  - `tkinter`
-  - `requests`
-  - `google.generativeai` *(for Gemini models)*
-  - `Pillow`
-
-> Install dependencies via:
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 🧰 Installation / 安裝步驟
-
-```bash
-git clone https://github.com/xdrxdrxd/DeskWifu.git
-cd DeskWifu
-python main.py
-```
-
----
-
-## 🛠️ Configuration / 設定
-
-- 在首次啟動時會自動建立資料庫 `pet_data.db`  
-- 開啟「設定」視窗以輸入你的 Gemini API 金鑰與模型名稱  
-- 所有參數皆可透過設定視窗進行調整，包括記憶機率、性格傾向與情緒靈敏度等
-
----
-
-## ▶️ Usage / 如何使用
-
-1. 啟動程式後，桌面上會出現一個小星桌寵視窗  
-2. 點選「設定」可自訂所有參數  
-3. 點選「檔案」可匯入新的圖片或資料庫  
-4. 開始與桌寵互動並觀察牠的情緒與回應變化！
-
----
-
-## 🧑‍🎨 Customization / 自訂
-
-- 預設圖像位置：`images/`  
-- 更換對應情緒圖檔（檔名需保持一致如 `happy.png`）  
-- 更換資料庫檔案：點選「檔案」>「切換資料庫...」  
-
----
-
-## 📁 Project Structure / 專案結構
-
-```
-DeskWifu/
-├── DeskWifu_1.0.0.py
-├── pet_data.db
-├── default.png
-├── happy.png
-...
-├── README.md
-└── requirements.txt
-```
-
----
-
-## 🤝 Contributing / 貢獻
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
----
-
-## 📜 License / 授權條款
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
