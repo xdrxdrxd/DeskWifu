@@ -180,7 +180,7 @@ DeskWifu_1.6.0/
 │   ├── llm_service.py        # Gemini LLM 服務的具體實作
 │   └── search_service.py     # Google 搜尋服務的具體實作
 └── ui/
-    ├── main_window.py        # 主UI視窗 (重構後的 PetApp)
+    ├── main_window.py        # 主UI視窗 
     └── settings_window.py    # 設定視窗
 ```   
 ---
