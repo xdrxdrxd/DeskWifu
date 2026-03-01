@@ -1,5 +1,6 @@
 # DeskWifu 1.6.0(小星): A Stateful Generative Agent with a Simulated Cognitive Architecture
 1.6.0版未完成 不想除錯請使用1.5.2
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **前言：** 本專案需要使用者自行註冊 Google Gemini API 和 Google Custom Search API，並在應用程式的設定中填入對應的金鑰 (API Key) 與搜尋引擎 ID (CX ID)。由於網路環境因素，搜尋功能可能偶爾失敗。強烈建議使用者根據個人偏好，調整程式碼內部關於模型行為的提示 (Prompts)，特別是在搜尋決策的謹慎度和角色的預設個性方面。
