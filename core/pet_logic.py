@@ -290,19 +290,18 @@ class PetLogic:
         logging.debug("Performing periodic maintenance tasks...")
         self._check_sleep_schedule()
 
-        # --- [新增] 先執行 personality_system 維護，以更新 effective 參數 ---
+
         self.personality_system.periodic_maintenance() 
 
         if not self.is_sleeping:
-            # --- [修改] 使用 personality_system 計算出的動態參數 ---
+-
             self.emotion_system.decay_emotions(self.personality_system.effective_mood_stability)
             self.emotion_system.decay_core_affect(is_sleeping=False)
             self.emotion_system.apply_random_fluctuations(self.personality_system.effective_mood_stability)
-            # --- 修改結束 ---
             self.perform_daily_news_search_async()
             
         self.memory_system.periodic_maintenance()
-        # self.personality_system.periodic_maintenance() # --- [移動] 已移到前面 ---
+        # self.personality_system.periodic_maintenance() 
         return {"new_emotion_for_ui": "sleepy" if self.is_sleeping else self.emotion_system.get_dominant_emotion_for_display()}
 
     def get_full_debug_status_report(self) -> str:
@@ -574,3 +573,4 @@ class PetLogic:
                 break # 一次只提醒一個任務
         
         return None
+
