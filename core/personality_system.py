@@ -300,7 +300,7 @@ class PersonalitySystem:
 
         self.load_characteristics_cache()
     
-    # --- [替換/新增] 模擬神經化學的完整邏輯 ---
+    
     def _update_sim_neuro_state(self, event_type, intensity=0.1):
         """根據事件更新模擬的神經化學狀態"""
         neuroticism = self.character_traits.get(config.SETTING_OCEAN_NEUROTICISM, 0.5)
@@ -436,7 +436,6 @@ class PersonalitySystem:
         return prompt.strip()
 
     def _process_llm_analysis_response(self, llm_response_text: str, original_user_text: str):
-        # (此方法在新舊版本中已存在且相似，此處保持不變)
         pass
 
     def learn_from_pet_text_async(self, text: str):
@@ -451,10 +450,9 @@ class PersonalitySystem:
         thread.start()
         
     def _learn_from_pet_text_worker(self, text: str):
-        # (此方法在新舊版本中已存在且相似，此處保持不變)
         pass
 
-    # --- [替換] 內省式學習的完整邏輯 ---
+
     def reflect_on_thoughts_async(self):
         """非同步地觸發一次對內心思考的自我反思。"""
         if not self.llm:
@@ -539,3 +537,4 @@ class PersonalitySystem:
             logging.error(f"WORKER: Error during thought reflection: {e}", exc_info=True)
         finally:
             self._last_thought_reflection_time = time.time()
+
